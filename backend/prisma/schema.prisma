@@ -1,0 +1,142 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  phases       Phase[]
+  notes        Note[]
+  progressLogs ProgressLog[]
+}
+
+model Phase {
+  id        String   @id @default(cuid())
+  number    Int
+  title     String
+  goal      String
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  months Month[]
+
+  @@unique([userId, number])
+}
+
+model Month {
+  id        String   @id @default(cuid())
+  phaseId   String
+  number    Int
+  title     String
+  progress  Float    @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  phase     Phase      @relation(fields: [phaseId], references: [id], onDelete: Cascade)
+  weeks     Week[]
+  resources Resource[]
+
+  @@unique([phaseId, number])
+}
+
+model Week {
+  id        String   @id @default(cuid())
+  monthId   String
+  number    Int
+  title     String
+  focus     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  month Month @relation(fields: [monthId], references: [id], onDelete: Cascade)
+  days  Day[]
+
+  @@unique([monthId, number])
+}
+
+model Day {
+  id        String   @id @default(cuid())
+  weekId    String
+  dayName   String
+  dayIndex  Int      // 0-6 for ordering
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  week       Week        @relation(fields: [weekId], references: [id], onDelete: Cascade)
+  timeBlocks TimeBlock[]
+
+  @@unique([weekId, dayIndex])
+}
+
+model TimeBlock {
+  id          String   @id @default(cuid())
+  dayId       String
+  duration    String   // e.g., "45min", "1hr", "2hr"
+  type        String   // "theory", "project", "practice"
+  description String
+  completed   Boolean  @default(false)
+  order       Int      // for ordering within a day
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  day          Day           @relation(fields: [dayId], references: [id], onDelete: Cascade)
+  progressLogs ProgressLog[]
+}
+
+model Resource {
+  id        String   @id @default(cuid())
+  monthId   String
+  title     String
+  url       String?
+  type      String   // "book", "video", "website", "tool"
+  status    String   @default("not_started") // "not_started", "in_progress", "completed"
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  month Month @relation(fields: [monthId], references: [id], onDelete: Cascade)
+}
+
+model Note {
+  id         String   @id @default(cuid())
+  userId     String
+  entityType String   // "phase", "month", "week", "day", "timeblock", "resource"
+  entityId   String
+  content    String   @db.Text
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([entityType, entityId])
+}
+
+model ProgressLog {
+  id             String   @id @default(cuid())
+  userId         String
+  timeBlockId    String
+  actualDuration Int      // in minutes
+  date           DateTime
+  notes          String?
+  createdAt      DateTime @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  timeBlock TimeBlock @relation(fields: [timeBlockId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, timeBlockId, date])
+}

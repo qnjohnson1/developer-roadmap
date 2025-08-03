@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Learning Roadmap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .phase-container {
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .phase-container:nth-child(2) { animation-delay: 0.1s; }
+        .phase-container:nth-child(3) { animation-delay: 0.2s; }
+        .phase-container:nth-child(4) { animation-delay: 0.3s; }
+        .phase-container:nth-child(5) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .phase-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #2a2a4e;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phase-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .phase-title {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .phase-goal {
+            color: #a8a8a8;
+            font-style: italic;
+        }
+
+        .months-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .month-card {
+            background: #1a1a2e;
+            border: 1px solid #2a2a4e;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .month-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .month-header {
+            font-size: 1.3rem;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .resources-section {
+            background: #0f0f1e;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #1a1a3e;
+        }
+
+        .resources-title {
+            color: #f5576c;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .resources-title::before {
+            content: '📚';
+        }
+
+        .resource-list {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .resource-item {
+            color: #a8a8a8;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .resource-item::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+        }
+
+        .week-breakdown {
+            background: #0f0f1e;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #1a1a3e;
+        }
+
+        .week-title {
+            color: #f093fb;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .week-title::before {
+            content: '📅';
+        }
+
+        .daily-schedule {
+            display: grid;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .day-row {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 15px;
+            align-items: center;
+            padding: 8px;
+            background: #1a1a2e;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .day-row:hover {
+            background: #222244;
+            transform: translateX(5px);
+        }
+
+        .day-label {
+            color: #888;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .time-blocks {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .time-block {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .time-block:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .time-block.theory {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .time-block.project {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .tech-tag {
+            background: #2a2a4e;
+            color: #a8a8a8;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            border: 1px solid #3a3a5e;
+            transition: all 0.2s ease;
+        }
+
+        .tech-tag:hover {
+            border-color: #667eea;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .progress-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: conic-gradient(#667eea 0deg, #667eea 0deg, #2a2a4e 0deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .legend {
+            background: #1a1a2e;
+            border: 1px solid #2a2a4e;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        @media (max-width: 768px) {
+            .months-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .day-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .day-label {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Developer Learning Roadmap</h1>
+    <p class="subtitle">Your 12-Month Journey: 3-5 Hours/Week</p>
+
+    <!-- Phase 1 -->
+    <div class="phase-container">
+        <div class="phase-header">
+            <h2 class="phase-title">Phase 1: Foundations (Months 1-3)</h2>
+            <p class="phase-goal">Goal: Build CS fundamentals and prep for hardware/game dev</p>
+        </div>
+
+        <div class="months-grid">
+            <!-- Month 1 -->
+            <div class="month-card">
+                <div class="progress-indicator">0%</div>
+                <h3 class="month-header">Month 1: Computer Systems Basics</h3>
+
+                <div class="resources-section">
+                    <h4 class="resources-title">Resources to Get</h4>
+                    <ul class="resource-list">
+                        <li class="resource-item">"Code: The Hidden Language" by Charles Petzold</li>
+                        <li class="resource-item">Ben Eater's YouTube: "Build an 8-bit CPU"</li>
+                        <li class="resource-item">nand2tetris.org (free course)</li>
+                        <li class="resource-item">Book: "Computer Systems: A Programmer's Perspective"</li>
+                    </ul>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 1-2: CPU & Memory Fundamentals</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Monday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">45min: Code Ch 1-3</span>
+                                <span class="time-block">30min: Notes</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Wednesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">45min: Code Ch 4-6</span>
+                                <span class="time-block">30min: Exercises</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Saturday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">2hr: Start VM in C#</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 3-4: Assembly & Low-Level</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Tuesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">45min: Ben Eater ALU</span>
+                                <span class="time-block">30min: VM opcodes</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Thursday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">45min: Ben Eater RAM</span>
+                                <span class="time-block">30min: VM memory</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Sunday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">1.5hr: VM arithmetic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">C#</span>
+                    <span class="tech-tag">Assembly Concepts</span>
+                    <span class="tech-tag">Memory Management</span>
+                </div>
+            </div>
+
+            <!-- Month 2 -->
+            <div class="month-card">
+                <div class="progress-indicator">0%</div>
+                <h3 class="month-header">Month 2: Systems Deep Dive</h3>
+
+                <div class="resources-section">
+                    <h4 class="resources-title">Resources to Get</h4>
+                    <ul class="resource-list">
+                        <li class="resource-item">"Operating Systems: Three Easy Pieces" (free online)</li>
+                        <li class="resource-item">"Algorithms" by Robert Sedgewick</li>
+                        <li class="resource-item">LeetCode account (free tier)</li>
+                        <li class="resource-item">Visualgo.net for algorithm visualization</li>
+                    </ul>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 1-2: OS Concepts</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Monday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">1hr: OSTEP Ch 4-6</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Wednesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">1hr: OSTEP Ch 7-9</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Friday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">1.5hr: Process scheduler</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Saturday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">1.5hr: Scheduler polish</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 3-4: Algorithms Practice</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Mon-Fri</span>
+                            <div class="time-blocks">
+                                <span class="time-block">30min: 1 LeetCode Easy</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Saturday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">2hr: Sedgewick Ch 1-2</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Sunday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">2hr: Sedgewick Ch 3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">Data Structures</span>
+                    <span class="tech-tag">Algorithms</span>
+                </div>
+            </div>
+
+            <!-- Month 3 -->
+            <div class="month-card">
+                <div class="progress-indicator">0%</div>
+                <h3 class="month-header">Month 3: Game Programming Basics</h3>
+
+                <div class="resources-section">
+                    <h4 class="resources-title">Resources to Get</h4>
+                    <ul class="resource-list">
+                        <li class="resource-item">MDN Canvas API Tutorial</li>
+                        <li class="resource-item">"Game Programming Patterns" by Robert Nystrom</li>
+                        <li class="resource-item">Coding Train YouTube (Daniel Shiffman)</li>
+                        <li class="resource-item">Red Blob Games (algorithms & visuals)</li>
+                    </ul>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 1-2: 2D Graphics & Game Loop</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Tuesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">1hr: MDN Canvas basics</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Thursday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">1hr: Game loop pattern</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Saturday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">2.5hr: Build Pong</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Sunday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">1hr: Pong AI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 3-4: Collision & Physics</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Monday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">45min: Collision basics</span>
+                                <span class="time-block">45min: AABB implementation</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Wednesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">45min: Rotation math</span>
+                                <span class="time-block">45min: Tetris pieces</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Saturday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">3hr: Build Tetris</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Sunday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">1hr: Scoring & levels</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">Canvas API</span>
+                    <span class="tech-tag">Game Loop</span>
+                    <span class="tech-tag">Collision Detection</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase-container">
+        <div class="phase-header">
+            <h2 class="phase-title">Phase 2: Hardware Simulation (Months 4-6)</h2>
+            <p class="phase-goal">Goal: Learn hardware concepts without buying equipment yet</p>
+        </div>
+
+        <div class="months-grid">
+            <!-- Month 4 -->
+            <div class="month-card">
+                <div class="progress-indicator">0%</div>
+                <h3 class="month-header">Month 4: Virtual Arduino Basics</h3>
+
+                <div class="resources-section">
+                    <h4 class="resources-title">Resources to Get</h4>
+                    <ul class="resource-list">
+                        <li class="resource-item">Tinkercad Circuits (free account)</li>
+                        <li class="resource-item">Arduino.cc official tutorials</li>
+                        <li class="resource-item">Paul McWhorter Arduino YouTube series</li>
+                        <li class="resource-item">"Make: Electronics" by Charles Platt</li>
+                    </ul>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 1-2: Electronics Fundamentals</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Monday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">1hr: Voltage/Current/Resistance</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Wednesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">1hr: Ohm's Law & LEDs</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Friday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">1.5hr: Tinkercad LED blink</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Sunday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">1.5hr: LED patterns</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 3-4: Sensors & GPIO</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Tuesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">45min: Digital vs Analog</span>
+                                <span class="time-block">45min: Button input</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Thursday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">45min: PWM concepts</span>
+                                <span class="time-block">45min: LED dimming</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Saturday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">2hr: Traffic light sim</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">Arduino (C++)</span>
+                    <span class="tech-tag">Tinkercad</span>
+                    <span class="tech-tag">Electronics</span>
+                </div>
+            </div>
+
+            <!-- Month 5 -->
+            <div class="month-card">
+                <div class="progress-indicator">0%</div>
+                <h3 class="month-header">Month 5: Advanced Simulation</h3>
+
+                <div class="resources-section">
+                    <h4 class="resources-title">Resources to Get</h4>
+                    <ul class="resource-list">
+                        <li class="resource-item">Wokwi.com (better simulator)</li>
+                        <li class="resource-item">I2C protocol guide (i2c-bus.org)</li>
+                        <li class="resource-item">Adafruit sensor tutorials</li>
+                        <li class="resource-item">ESP8266/ESP32 documentation</li>
+                    </ul>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 1-2: Sensor Integration</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Monday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">1hr: I2C protocol</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Wednesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">1hr: SPI vs I2C</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Saturday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">2hr: Temp sensor sim</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Sunday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">1hr: LCD display</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 3-4: Data Communication</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Tuesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1.5hr: Serial comm basics</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Thursday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1.5hr: WiFi on ESP32</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Sunday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">2hr: Weather station</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">Wokwi</span>
+                    <span class="tech-tag">Sensors</span>
+                    <span class="tech-tag">Data Protocols</span>
+                </div>
+            </div>
+
+            <!-- Month 6 -->
+            <div class="month-card">
+                <div class="progress-indicator">0%</div>
+                <h3 class="month-header">Month 6: IoT Fundamentals</h3>
+
+                <div class="resources-section">
+                    <h4 class="resources-title">Resources to Get</h4>
+                    <ul class="resource-list">
+                        <li class="resource-item">MQTT.org documentation</li>
+                        <li class="resource-item">Mosquitto broker (free)</li>
+                        <li class="resource-item">Node-RED visual programming</li>
+                        <li class="resource-item">"Hands-On MQTT Programming" tutorials</li>
+                    </ul>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 1-2: MQTT & Events</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Monday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">45min: Pub/Sub pattern</span>
+                                <span class="time-block">45min: MQTT basics</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Wednesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">45min: QoS levels</span>
+                                <span class="time-block">45min: Node.js client</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Saturday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">2hr: Local broker setup</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Sunday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">1hr: Test clients</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 3-4: Dashboard Build</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Monday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">45min: React + MQTT</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Tuesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">45min: Real-time graphs</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Thursday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">45min: Control widgets</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Friday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">45min: State management</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Weekend</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">3hr: Full home system</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">MQTT</span>
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">WebSockets</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase-container">
+        <div class="phase-header">
+            <h2 class="phase-title">Phase 3: 3D Game Development (Months 7-9)</h2>
+            <p class="phase-goal">Goal: Start 3D game dev with your programming focus</p>
+        </div>
+
+        <div class="months-grid">
+            <!-- Month 7 -->
+            <div class="month-card">
+                <div class="progress-indicator">0%</div>
+                <h3 class="month-header">Month 7: Unity/Godot Basics</h3>
+
+                <div class="resources-section">
+                    <h4 class="resources-title">Resources to Get</h4>
+                    <ul class="resource-list">
+                        <li class="resource-item">Unity Learn (free courses)</li>
+                        <li class="resource-item">Brackeys YouTube archive</li>
+                        <li class="resource-item">3Blue1Brown: Linear Algebra series</li>
+                        <li class="resource-item">GDQuest for Godot alternative</li>
+                    </ul>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 1-2: 3D Fundamentals</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Monday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">1hr: Vectors & matrices</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Wednesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">1hr: Quaternions basics</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Friday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">2hr: Unity setup & cube</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Saturday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">2hr: Materials & lighting</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 3-4: Movement & Camera</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Tuesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1.5hr: Character controller</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Thursday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1.5hr: Camera follow</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Sunday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">2hr: Basic 3D maze</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">Unity/C#</span>
+                    <span class="tech-tag">3D Math</span>
+                    <span class="tech-tag">Physics Engine</span>
+                </div>
+            </div>
+
+            <!-- Month 8 -->
+            <div class="month-card">
+                <div class="progress-indicator">0%</div>
+                <h3 class="month-header">Month 8: Procedural Generation</h3>
+
+                <div class="resources-section">
+                    <h4 class="resources-title">Resources to Get</h4>
+                    <ul class="resource-list">
+                        <li class="resource-item">Sebastian Lague: Procedural tutorials</li>
+                        <li class="resource-item">"The Nature of Code" by Daniel Shiffman</li>
+                        <li class="resource-item">Catlike Coding Unity tutorials</li>
+                        <li class="resource-item">Red Blob Games: Map generation</li>
+                    </ul>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 1-2: Algorithms</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Monday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">1hr: Perlin noise theory</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Wednesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">1hr: Noise applications</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Saturday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">2.5hr: Terrain mesh gen</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Sunday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">1hr: Terrain colors</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 3-4: Maze Generation</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Tuesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">45min: DFS algorithm</span>
+                                <span class="time-block">45min: Implementation</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Thursday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">45min: Prim's algorithm</span>
+                                <span class="time-block">45min: 3D adaptation</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Saturday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">3hr: Infinite maze</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Sunday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">1hr: Optimization</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">Procedural Gen</span>
+                    <span class="tech-tag">Algorithms</span>
+                    <span class="tech-tag">Optimization</span>
+                </div>
+            </div>
+
+            <!-- Month 9 -->
+            <div class="month-card">
+                <div class="progress-indicator">0%</div>
+                <h3 class="month-header">Month 9: Multiplayer Systems</h3>
+
+                <div class="resources-section">
+                    <h4 class="resources-title">Resources to Get</h4>
+                    <ul class="resource-list">
+                        <li class="resource-item">Mirror Networking for Unity</li>
+                        <li class="resource-item">Glenn Fiedler's networking articles</li>
+                        <li class="resource-item">"Multiplayer Game Programming" book</li>
+                        <li class="resource-item">Tom Weiland networking YouTube</li>
+                    </ul>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 1-2: Networking Basics</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Monday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">1hr: TCP vs UDP</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Wednesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">1hr: Client-server arch</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Friday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">1.5hr: Basic server</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Sunday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">1.5hr: Connect clients</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 3-4: State Sync</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Monday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1hr: State replication</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Tuesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1hr: Interpolation</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Thursday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1hr: Lag compensation</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Friday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1hr: Authority models</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Weekend</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">3hr: Multiplayer maze</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">WebSockets</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">State Sync</span>
+                    <span class="tech-tag">Lag Compensation</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase-container">
+        <div class="phase-header">
+            <h2 class="phase-title">Phase 4: Integration & Physical Computing (Months 10-12)</h2>
+            <p class="phase-goal">Goal: Combine everything with real hardware</p>
+        </div>
+
+        <div class="months-grid">
+            <!-- Month 10 -->
+            <div class="month-card">
+                <div class="progress-indicator">0%</div>
+                <h3 class="month-header">Month 10: Real Hardware</h3>
+
+                <div class="resources-section">
+                    <h4 class="resources-title">Resources to Get</h4>
+                    <ul class="resource-list">
+                        <li class="resource-item">Arduino Starter Kit ($50-80)</li>
+                        <li class="resource-item">DHT22 temp/humidity sensor</li>
+                        <li class="resource-item">Soil moisture sensor</li>
+                        <li class="resource-item">Random Nerd Tutorials site</li>
+                    </ul>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 1-2: Setup & Basics</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Monday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">30min: Arduino IDE setup</span>
+                                <span class="time-block">1hr: Real LED blink</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Wednesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">30min: Breadboard basics</span>
+                                <span class="time-block">1hr: Multiple LEDs</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Saturday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">2hr: Weather station build</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Sunday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">1hr: LCD display data</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 3-4: Web Integration</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Tuesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1.5hr: ESP8266 WiFi setup</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Thursday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1.5hr: HTTP requests</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Sunday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">2hr: Plant monitor system</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">Arduino</span>
+                    <span class="tech-tag">Sensors</span>
+                    <span class="tech-tag">WiFi</span>
+                    <span class="tech-tag">APIs</span>
+                </div>
+            </div>
+
+            <!-- Month 11 -->
+            <div class="month-card">
+                <div class="progress-indicator">0%</div>
+                <h3 class="month-header">Month 11: Space/Robotics Starter</h3>
+
+                <div class="resources-section">
+                    <h4 class="resources-title">Resources to Get</h4>
+                    <ul class="resource-list">
+                        <li class="resource-item">SG90 servo motors (2x)</li>
+                        <li class="resource-item">HMC5883L compass module</li>
+                        <li class="resource-item">N2YO.com satellite API</li>
+                        <li class="resource-item">CelesTrak orbital data</li>
+                    </ul>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 1-2: Tracking Systems</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Monday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">1hr: Orbital mechanics 101</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Wednesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block theory">1hr: TLE data format</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Friday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">2hr: ISS position API</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Saturday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">2hr: React tracker app</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 3-4: Physical Tracker</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Tuesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1hr: Servo control basics</span>
+                                <span class="time-block">30min: Pan/tilt mount</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Thursday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1hr: Compass calibration</span>
+                                <span class="time-block">30min: Azimuth calc</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Saturday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">3hr: Satellite pointer build</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Sunday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">1hr: Fine tuning</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">Servos</span>
+                    <span class="tech-tag">Compass</span>
+                    <span class="tech-tag">Coordinates</span>
+                    <span class="tech-tag">Real-time Data</span>
+                </div>
+            </div>
+
+            <!-- Month 12 -->
+            <div class="month-card">
+                <div class="progress-indicator">0%</div>
+                <h3 class="month-header">Month 12: Capstone Project</h3>
+
+                <div class="resources-section">
+                    <h4 class="resources-title">Project Ideas</h4>
+                    <ul class="resource-list">
+                        <li class="resource-item">Space-themed multiplayer game with real ISS data</li>
+                        <li class="resource-item">Smart greenhouse with game mechanics</li>
+                        <li class="resource-item">AR rocket launch tracker</li>
+                        <li class="resource-item">IoT-controlled robot maze solver</li>
+                    </ul>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 1-2: Project Planning</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Monday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1.5hr: Brainstorm & scope</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Wednesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1.5hr: Architecture design</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Saturday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">2hr: MVP prototype</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Sunday</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">1hr: Tech stack setup</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-breakdown">
+                    <h4 class="week-title">Week 3-4: Build & Polish</h4>
+                    <div class="daily-schedule">
+                        <div class="day-row">
+                            <span class="day-label">Monday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1hr: Core feature 1</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Tuesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1hr: Core feature 2</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Wednesday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1hr: Integration work</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Thursday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1hr: Testing & debug</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Friday</span>
+                            <div class="time-blocks">
+                                <span class="time-block">1hr: Polish & docs</span>
+                            </div>
+                        </div>
+                        <div class="day-row">
+                            <span class="day-label">Weekend</span>
+                            <div class="time-blocks">
+                                <span class="time-block project">4hr: Final sprint</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">Full Stack</span>
+                    <span class="tech-tag">Hardware</span>
+                    <span class="tech-tag">Game Dev</span>
+                    <span class="tech-tag">Integration</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+            <span>Hands-on Coding</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+            <span>Theory & Learning</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+            <span>Project Time</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add interactive progress tracking
+    document.querySelectorAll('.time-block').forEach(block => {
+        block.addEventListener('click', function() {
+            this.classList.toggle('completed');
+            updateProgress(this.closest('.month-card'));
+        });
+    });
+
+    function updateProgress(monthCard) {
+        const totalBlocks = monthCard.querySelectorAll('.time-block').length;
+        const completedBlocks = monthCard.querySelectorAll('.time-block.completed').length;
+        const percentage = Math.round((completedBlocks / totalBlocks) * 100);
+
+        const indicator = monthCard.querySelector('.progress-indicator');
+        indicator.textContent = percentage + '%';
+        indicator.style.background = `conic-gradient(#667eea 0deg, #667eea ${percentage * 3.6}deg, #2a2a4e ${percentage * 3.6}deg)`;
+    }
+
+    // Add hover effects for tech tags
+    document.querySelectorAll('.tech-tag').forEach(tag => {
+        tag.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px) scale(1.05)';
+        });
+
+        tag.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+
+    // Style for completed time blocks
+    const style = document.createElement('style');
+    style.textContent = `
+            .time-block.completed {
+                background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+                text-decoration: line-through;
+                opacity: 0.8;
+            }
+        `;
+    document.head.appendChild(style);
+</script>
+</body>
+</html>
