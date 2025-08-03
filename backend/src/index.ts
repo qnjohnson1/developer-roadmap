@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import path from 'path';
 import { PrismaClient } from '@prisma/client';
 
 // Load environment variables
@@ -39,16 +38,8 @@ app.use('/api/roadmap', roadmapRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/notes', notesRoutes);
 
-// Serve static files in production
-if (process.env.NODE_ENV === 'production') {
-  // Serve frontend build files
-  app.use(express.static(path.join(__dirname, '../../frontend/dist')));
-  
-  // Handle React routing - send all non-API routes to index.html
-  app.get('*', (_, res) => {
-    res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
-  });
-}
+// In production, frontend is deployed separately on Vercel
+// So we don't need to serve static files here
 
 // Error handling middleware
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
