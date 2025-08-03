@@ -1,11 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../index';
-
-export interface AuthRequest extends Request {
-  userId?: string;
-  user?: any;
-}
+import { AuthRequest } from '../types/express';
 
 export const authenticate = async (
   req: AuthRequest,
