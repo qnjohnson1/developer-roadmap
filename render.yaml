@@ -1,0 +1,28 @@
+services:
+  # Backend API Service
+  - type: web
+    name: developer-roadmap-api
+    runtime: node
+    repo: https://github.com/qnjohnson1/developer-roadmap
+    buildCommand: cd backend && npm install && npm run prisma:generate && npm run build
+    startCommand: cd backend && npm start
+    rootDir: .
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: developer-roadmap-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: PORT
+        value: 3000
+
+databases:
+  - name: developer-roadmap-db
+    plan: free
+    databaseName: developer_roadmap
+    user: roadmap_user
