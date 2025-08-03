@@ -1,0 +1,419 @@
+{
+  "tables": {
+    "User": {
+      "columns": {
+        "id": {
+          "type": "TEXT",
+          "primaryKey": true,
+          "default": "gen_random_uuid()"
+        },
+        "email": {
+          "type": "TEXT",
+          "unique": true,
+          "nullable": false
+        },
+        "password": {
+          "type": "TEXT",
+          "nullable": false
+        },
+        "name": {
+          "type": "TEXT",
+          "nullable": true
+        },
+        "createdAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updatedAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        }
+      }
+    },
+    "Phase": {
+      "columns": {
+        "id": {
+          "type": "TEXT",
+          "primaryKey": true,
+          "default": "gen_random_uuid()"
+        },
+        "number": {
+          "type": "INTEGER",
+          "nullable": false
+        },
+        "title": {
+          "type": "TEXT",
+          "nullable": false
+        },
+        "goal": {
+          "type": "TEXT",
+          "nullable": false
+        },
+        "userId": {
+          "type": "TEXT",
+          "nullable": false,
+          "foreignKey": {
+            "table": "User",
+            "column": "id",
+            "onDelete": "CASCADE"
+          }
+        },
+        "createdAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updatedAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "uniqueConstraints": [
+        ["userId", "number"]
+      ]
+    },
+    "Month": {
+      "columns": {
+        "id": {
+          "type": "TEXT",
+          "primaryKey": true,
+          "default": "gen_random_uuid()"
+        },
+        "phaseId": {
+          "type": "TEXT",
+          "nullable": false,
+          "foreignKey": {
+            "table": "Phase",
+            "column": "id",
+            "onDelete": "CASCADE"
+          }
+        },
+        "number": {
+          "type": "INTEGER",
+          "nullable": false
+        },
+        "title": {
+          "type": "TEXT",
+          "nullable": false
+        },
+        "progress": {
+          "type": "DECIMAL",
+          "default": 0
+        },
+        "createdAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updatedAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "uniqueConstraints": [
+        ["phaseId", "number"]
+      ]
+    },
+    "Week": {
+      "columns": {
+        "id": {
+          "type": "TEXT",
+          "primaryKey": true,
+          "default": "gen_random_uuid()"
+        },
+        "monthId": {
+          "type": "TEXT",
+          "nullable": false,
+          "foreignKey": {
+            "table": "Month",
+            "column": "id",
+            "onDelete": "CASCADE"
+          }
+        },
+        "number": {
+          "type": "INTEGER",
+          "nullable": false
+        },
+        "title": {
+          "type": "TEXT",
+          "nullable": false
+        },
+        "focus": {
+          "type": "TEXT",
+          "nullable": false
+        },
+        "createdAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updatedAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "uniqueConstraints": [
+        ["monthId", "number"]
+      ]
+    },
+    "Day": {
+      "columns": {
+        "id": {
+          "type": "TEXT",
+          "primaryKey": true,
+          "default": "gen_random_uuid()"
+        },
+        "weekId": {
+          "type": "TEXT",
+          "nullable": false,
+          "foreignKey": {
+            "table": "Week",
+            "column": "id",
+            "onDelete": "CASCADE"
+          }
+        },
+        "dayName": {
+          "type": "TEXT",
+          "nullable": false
+        },
+        "dayIndex": {
+          "type": "INTEGER",
+          "nullable": false
+        },
+        "createdAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updatedAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "uniqueConstraints": [
+        ["weekId", "dayIndex"]
+      ]
+    },
+    "TimeBlock": {
+      "columns": {
+        "id": {
+          "type": "TEXT",
+          "primaryKey": true,
+          "default": "gen_random_uuid()"
+        },
+        "dayId": {
+          "type": "TEXT",
+          "nullable": false,
+          "foreignKey": {
+            "table": "Day",
+            "column": "id",
+            "onDelete": "CASCADE"
+          }
+        },
+        "duration": {
+          "type": "TEXT",
+          "nullable": false
+        },
+        "type": {
+          "type": "TEXT",
+          "nullable": false,
+          "enum": ["theory", "project", "practice"]
+        },
+        "description": {
+          "type": "TEXT",
+          "nullable": false
+        },
+        "completed": {
+          "type": "BOOLEAN",
+          "default": false
+        },
+        "order": {
+          "type": "INTEGER",
+          "nullable": false
+        },
+        "createdAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updatedAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        }
+      }
+    },
+    "Resource": {
+      "columns": {
+        "id": {
+          "type": "TEXT",
+          "primaryKey": true,
+          "default": "gen_random_uuid()"
+        },
+        "monthId": {
+          "type": "TEXT",
+          "nullable": false,
+          "foreignKey": {
+            "table": "Month",
+            "column": "id",
+            "onDelete": "CASCADE"
+          }
+        },
+        "title": {
+          "type": "TEXT",
+          "nullable": false
+        },
+        "url": {
+          "type": "TEXT",
+          "nullable": true
+        },
+        "type": {
+          "type": "TEXT",
+          "nullable": false,
+          "enum": ["book", "video", "website", "tool"]
+        },
+        "status": {
+          "type": "TEXT",
+          "default": "not_started",
+          "enum": ["not_started", "in_progress", "completed"]
+        },
+        "notes": {
+          "type": "TEXT",
+          "nullable": true
+        },
+        "createdAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updatedAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        }
+      }
+    },
+    "Note": {
+      "columns": {
+        "id": {
+          "type": "TEXT",
+          "primaryKey": true,
+          "default": "gen_random_uuid()"
+        },
+        "userId": {
+          "type": "TEXT",
+          "nullable": false,
+          "foreignKey": {
+            "table": "User",
+            "column": "id",
+            "onDelete": "CASCADE"
+          }
+        },
+        "entityType": {
+          "type": "TEXT",
+          "nullable": false,
+          "enum": ["phase", "month", "week", "day", "timeblock", "resource"]
+        },
+        "entityId": {
+          "type": "TEXT",
+          "nullable": false
+        },
+        "content": {
+          "type": "TEXT",
+          "nullable": false
+        },
+        "createdAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updatedAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": [
+        {
+          "name": "idx_note_entity",
+          "columns": ["entityType", "entityId"]
+        }
+      ]
+    },
+    "ProgressLog": {
+      "columns": {
+        "id": {
+          "type": "TEXT",
+          "primaryKey": true,
+          "default": "gen_random_uuid()"
+        },
+        "userId": {
+          "type": "TEXT",
+          "nullable": false,
+          "foreignKey": {
+            "table": "User",
+            "column": "id",
+            "onDelete": "CASCADE"
+          }
+        },
+        "timeBlockId": {
+          "type": "TEXT",
+          "nullable": false,
+          "foreignKey": {
+            "table": "TimeBlock",
+            "column": "id",
+            "onDelete": "CASCADE"
+          }
+        },
+        "actualDuration": {
+          "type": "INTEGER",
+          "nullable": false,
+          "description": "Duration in minutes"
+        },
+        "date": {
+          "type": "TIMESTAMP",
+          "nullable": false
+        },
+        "notes": {
+          "type": "TEXT",
+          "nullable": true
+        },
+        "createdAt": {
+          "type": "TIMESTAMP",
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "uniqueConstraints": [
+        ["userId", "timeBlockId", "date"]
+      ]
+    }
+  },
+  "relationships": {
+    "User": {
+      "hasMany": ["Phase", "Note", "ProgressLog"]
+    },
+    "Phase": {
+      "belongsTo": "User",
+      "hasMany": ["Month"]
+    },
+    "Month": {
+      "belongsTo": "Phase",
+      "hasMany": ["Week", "Resource"]
+    },
+    "Week": {
+      "belongsTo": "Month",
+      "hasMany": ["Day"]
+    },
+    "Day": {
+      "belongsTo": "Week",
+      "hasMany": ["TimeBlock"]
+    },
+    "TimeBlock": {
+      "belongsTo": "Day",
+      "hasMany": ["ProgressLog"]
+    },
+    "Resource": {
+      "belongsTo": "Month"
+    },
+    "Note": {
+      "belongsTo": "User",
+      "references": {
+        "entityType": ["phase", "month", "week", "day", "timeblock", "resource"],
+        "entityId": "polymorphic reference to any entity"
+      }
+    },
+    "ProgressLog": {
+      "belongsTo": ["User", "TimeBlock"]
+    }
+  }
+}

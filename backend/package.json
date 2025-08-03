@@ -4,12 +4,16 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "dev:simple": "ts-node-dev --respawn --transpile-only src/index-simple.ts",
+    "dev:pg": "ts-node-dev --respawn --transpile-only src/index-pg.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
     "seed": "ts-node-dev src/utils/seed.ts",
+    "seed:pg": "ts-node-dev src/db/seed.ts",
+    "seed:roadmap": "ts-node-dev src/db/seed-roadmap.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -18,11 +22,13 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.13.0",
+    "@types/pg": "^8.15.5",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.16.3"
   },
   "devDependencies": {
     "@types/bcryptjs": "^3.0.0",

@@ -1,8 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import path from 'path';
-import { PrismaClient } from '@prisma/client';
+import { pool } from './db/pool';
 
 // Load environment variables
 dotenv.config();
@@ -10,9 +9,6 @@ dotenv.config();
 // Initialize Express app
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-// Initialize Prisma
-export const prisma = new PrismaClient();
 
 // Middleware
 app.use(cors({
@@ -22,33 +18,25 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Import routes
-import authRoutes from './routes/auth';
-import roadmapRoutes from './routes/roadmap';
-import progressRoutes from './routes/progress';
-import notesRoutes from './routes/notes';
+// Import routes with PostgreSQL
+import authRoutesPg from './routes/auth-pg';
+import roadmapRoutesPg from './routes/roadmap-pg';
+import progressRoutesPg from './routes/progress-pg';
 
 // Health check endpoint
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+app.get('/health', async (req, res) => {
+  try {
+    await pool.query('SELECT 1');
+    res.json({ status: 'ok', timestamp: new Date().toISOString(), database: 'connected' });
+  } catch (error) {
+    res.status(500).json({ status: 'error', timestamp: new Date().toISOString(), database: 'disconnected' });
+  }
 });
 
 // API routes
-app.use('/api/auth', authRoutes);
-app.use('/api/roadmap', roadmapRoutes);
-app.use('/api/progress', progressRoutes);
-app.use('/api/notes', notesRoutes);
-
-// Serve static files in production
-if (process.env.NODE_ENV === 'production') {
-  // Serve frontend build files
-  app.use(express.static(path.join(__dirname, '../../frontend/dist')));
-  
-  // Handle React routing - send all non-API routes to index.html
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
-  });
-}
+app.use('/api/auth', authRoutesPg);
+app.use('/api/roadmap', roadmapRoutesPg);
+app.use('/api/progress', progressRoutesPg);
 
 // Error handling middleware
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -60,12 +48,13 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
 const server = app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
   console.log(`📝 Environment: ${process.env.NODE_ENV}`);
+  console.log(`🐘 Using PostgreSQL directly (no Prisma)`);
 });
 
 // Graceful shutdown
 process.on('SIGTERM', async () => {
   console.log('SIGTERM received, shutting down gracefully...');
-  await prisma.$disconnect();
+  await pool.end();
   server.close(() => {
     console.log('Server closed');
     process.exit(0);
