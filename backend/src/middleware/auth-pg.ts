@@ -1,13 +1,15 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { pool } from '../db/pool';
 import { AuthRequest } from '../types/express';
+
+export { AuthRequest };
 
 export const authenticate = async (
   req: AuthRequest,
   res: Response,
   next: NextFunction
-) => {
+): Promise<Response | void> => {
   try {
     const token = req.headers.authorization?.replace('Bearer ', '');
 
@@ -28,8 +30,8 @@ export const authenticate = async (
 
     req.userId = result.rows[0].id;
     req.user = result.rows[0];
-    next();
+    return next();
   } catch (error) {
-    res.status(401).json({ error: 'Invalid token' });
+    return res.status(401).json({ error: 'Invalid token' });
   }
 };

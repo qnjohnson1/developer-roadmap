@@ -80,10 +80,10 @@ router.get('/', authenticate, async (req: AuthRequest, res) => {
       });
     }
 
-    res.json({ success: true, data: phases });
+    return res.json({ success: true, data: phases });
   } catch (error) {
     console.error('Get roadmap error:', error);
-    res.status(500).json({ error: 'Failed to fetch roadmap' });
+    return res.status(500).json({ error: 'Failed to fetch roadmap' });
   }
 });
 
@@ -126,10 +126,10 @@ router.patch('/timeblock/:timeBlockId', authenticate, async (req: AuthRequest, r
       );
     }
 
-    res.json({ success: true, data: updateResult.rows[0] });
+    return res.json({ success: true, data: updateResult.rows[0] });
   } catch (error) {
     console.error('Update time block error:', error);
-    res.status(500).json({ error: 'Failed to update time block' });
+    return res.status(500).json({ error: 'Failed to update time block' });
   }
 });
 
@@ -162,10 +162,10 @@ router.patch('/resource/:resourceId', authenticate, async (req: AuthRequest, res
       [status, notes, req.params.resourceId]
     );
 
-    res.json({ success: true, data: updateResult.rows[0] });
+    return res.json({ success: true, data: updateResult.rows[0] });
   } catch (error) {
     console.error('Update resource error:', error);
-    res.status(500).json({ error: 'Failed to update resource' });
+    return res.status(500).json({ error: 'Failed to update resource' });
   }
 });
 

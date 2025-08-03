@@ -1,13 +1,15 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../index';
 import { AuthRequest } from '../types/express';
+
+export { AuthRequest };
 
 export const authenticate = async (
   req: AuthRequest,
   res: Response,
   next: NextFunction
-) => {
+): Promise<Response | void> => {
   try {
     const token = req.headers.authorization?.replace('Bearer ', '');
 
@@ -27,8 +29,8 @@ export const authenticate = async (
 
     req.userId = user.id;
     req.user = user;
-    next();
+    return next();
   } catch (error) {
-    res.status(401).json({ error: 'Invalid token' });
+    return res.status(401).json({ error: 'Invalid token' });
   }
 };

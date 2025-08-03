@@ -18,10 +18,10 @@ router.get('/:entityType/:entityId', authenticate, async (req: AuthRequest, res)
       orderBy: { createdAt: 'desc' }
     });
 
-    res.json({ success: true, data: notes });
+    return res.json({ success: true, data: notes });
   } catch (error) {
     console.error('Get notes error:', error);
-    res.status(500).json({ error: 'Failed to fetch notes' });
+    return res.status(500).json({ error: 'Failed to fetch notes' });
   }
 });
 
@@ -39,10 +39,10 @@ router.post('/', authenticate, async (req: AuthRequest, res) => {
       }
     });
 
-    res.json({ success: true, data: note });
+    return res.json({ success: true, data: note });
   } catch (error) {
     console.error('Create note error:', error);
-    res.status(500).json({ error: 'Failed to create note' });
+    return res.status(500).json({ error: 'Failed to create note' });
   }
 });
 
@@ -68,10 +68,10 @@ router.put('/:noteId', authenticate, async (req: AuthRequest, res) => {
       data: { content }
     });
 
-    res.json({ success: true, data: updated });
+    return res.json({ success: true, data: updated });
   } catch (error) {
     console.error('Update note error:', error);
-    res.status(500).json({ error: 'Failed to update note' });
+    return res.status(500).json({ error: 'Failed to update note' });
   }
 });
 
@@ -94,10 +94,10 @@ router.delete('/:noteId', authenticate, async (req: AuthRequest, res) => {
       where: { id: req.params.noteId }
     });
 
-    res.json({ success: true });
+    return res.json({ success: true });
   } catch (error) {
     console.error('Delete note error:', error);
-    res.status(500).json({ error: 'Failed to delete note' });
+    return res.status(500).json({ error: 'Failed to delete note' });
   }
 });
 

@@ -13,9 +13,15 @@ export const comparePassword = async (
 };
 
 export const generateToken = (userId: string): string => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error('JWT_SECRET not configured');
+  }
+  
+  // Type assertion to fix TypeScript issue with jsonwebtoken v9
   return jwt.sign(
     { userId },
-    process.env.JWT_SECRET!,
-    { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+    secret,
+    { expiresIn: process.env.JWT_EXPIRES_IN || '7d' } as any
   );
 };

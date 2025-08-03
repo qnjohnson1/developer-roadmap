@@ -24,7 +24,7 @@ import roadmapRoutesPg from './routes/roadmap-pg';
 import progressRoutesPg from './routes/progress-pg';
 
 // Health check endpoint
-app.get('/health', async (req, res) => {
+app.get('/health', async (_, res) => {
   try {
     await pool.query('SELECT 1');
     res.json({ status: 'ok', timestamp: new Date().toISOString(), database: 'connected' });
@@ -39,7 +39,7 @@ app.use('/api/roadmap', roadmapRoutesPg);
 app.use('/api/progress', progressRoutesPg);
 
 // Error handling middleware
-app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Something went wrong!' });
 });

@@ -104,7 +104,7 @@ router.get('/overview', authenticate, async (req: AuthRequest, res) => {
       };
     });
 
-    res.json({
+    return res.json({
       success: true,
       data: {
         totalTimeBlocks,
@@ -117,7 +117,7 @@ router.get('/overview', authenticate, async (req: AuthRequest, res) => {
     });
   } catch (error) {
     console.error('Get progress overview error:', error);
-    res.status(500).json({ error: 'Failed to fetch progress overview' });
+    return res.status(500).json({ error: 'Failed to fetch progress overview' });
   }
 });
 
@@ -144,7 +144,7 @@ router.get('/logs', authenticate, async (req: AuthRequest, res) => {
       where: { userId: req.userId! }
     });
 
-    res.json({
+    return res.json({
       success: true,
       data: {
         logs,
@@ -155,7 +155,7 @@ router.get('/logs', authenticate, async (req: AuthRequest, res) => {
     });
   } catch (error) {
     console.error('Get progress logs error:', error);
-    res.status(500).json({ error: 'Failed to fetch progress logs' });
+    return res.status(500).json({ error: 'Failed to fetch progress logs' });
   }
 });
 
@@ -219,10 +219,10 @@ router.post('/log', authenticate, async (req: AuthRequest, res) => {
       });
     }
 
-    res.json({ success: true, data: log });
+    return res.json({ success: true, data: log });
   } catch (error) {
     console.error('Create/update progress log error:', error);
-    res.status(500).json({ error: 'Failed to save progress log' });
+    return res.status(500).json({ error: 'Failed to save progress log' });
   }
 });
 

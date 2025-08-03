@@ -72,7 +72,7 @@ router.get('/overview', authenticate, async (req: AuthRequest, res) => {
       completedBlocks: parseInt(phase.completedBlocks)
     }));
 
-    res.json({
+    return res.json({
       success: true,
       data: {
         totalTimeBlocks,
@@ -85,7 +85,7 @@ router.get('/overview', authenticate, async (req: AuthRequest, res) => {
     });
   } catch (error) {
     console.error('Get progress overview error:', error);
-    res.status(500).json({ error: 'Failed to fetch progress overview' });
+    return res.status(500).json({ error: 'Failed to fetch progress overview' });
   }
 });
 
