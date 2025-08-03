@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { prisma } from '../index';
 import { hashPassword, comparePassword, generateToken } from '../utils/auth';
-import { RegisterRequest, LoginRequest } from '../../../shared/types';
+import { RegisterRequest, LoginRequest } from '../shared/types';
 
 const router = Router();
 

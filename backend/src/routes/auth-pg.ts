@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { pool } from '../db/pool';
 import { hashPassword, comparePassword, generateToken } from '../utils/auth';
-import { RegisterRequest, LoginRequest } from '../../../shared/types';
+import { RegisterRequest, LoginRequest } from '../shared/types';
 
 const router = Router();
 
