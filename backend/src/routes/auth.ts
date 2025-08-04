@@ -62,7 +62,10 @@ router.post('/login', async (req, res) => {
     }
 
     // Check password
+    console.log('Password hash from DB:', user.password);
+    console.log('Password hash length:', user.password.length);
     const isValidPassword = await comparePassword(password, user.password);
+    console.log('Password comparison result:', isValidPassword);
     if (!isValidPassword) {
       console.log('Invalid password for user:', email);
       return res.status(401).json({ error: 'Invalid credentials' });
@@ -83,6 +86,17 @@ router.post('/login', async (req, res) => {
     console.error('Login error:', error);
     return res.status(500).json({ error: 'Failed to login' });
   }
+});
+
+// Temporary endpoint to generate password hash (REMOVE IN PRODUCTION)
+router.get('/hash-password/:password', async (req, res) => {
+  const password = req.params.password;
+  const hash = await hashPassword(password);
+  return res.json({ 
+    password, 
+    hash,
+    info: 'Use this hash in your database'
+  });
 });
 
 export default router;
