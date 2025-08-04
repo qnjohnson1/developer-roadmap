@@ -47,6 +47,7 @@ router.post('/register', async (req, res) => {
 
 // Login endpoint
 router.post('/login', async (req, res) => {
+  console.log('Login attempt received:', { email: req.body.email });
   try {
     const { email, password }: LoginRequest = req.body;
 
@@ -56,12 +57,14 @@ router.post('/login', async (req, res) => {
     });
 
     if (!user) {
+      console.log('User not found for email:', email);
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
     // Check password
     const isValidPassword = await comparePassword(password, user.password);
     if (!isValidPassword) {
+      console.log('Invalid password for user:', email);
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
@@ -75,6 +78,7 @@ router.post('/login', async (req, res) => {
       user: userWithoutPassword,
       token
     });
+    console.log('Login successful for:', email);
   } catch (error) {
     console.error('Login error:', error);
     return res.status(500).json({ error: 'Failed to login' });
